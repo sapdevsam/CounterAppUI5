@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta charset="UTF-8">
+
+	<title>MVC App</title>
+
+	<!-- src="https://openui5.hana.ondemand.com/1.56.18/resources/sap-ui-core.js" -->
+	<script id="sap-ui-bootstrap"
+			src="https://openui5.hana.ondemand.com/1.60.40/resources/sap-ui-core.js"
+			data-sap-ui-libs="sap.m"
+			data-sap-ui-theme="sap_bluecrystal"
+			data-sap-ui-compatVersion="edge"
+			data-sap-ui-xx-bindingSyntax="complex">
+	</script>
+	<script>
+		var oCounterModel = {
+			"Counter" : 0
+		};
+		
+		var oModel = sap.ui.model.json.JSONModel();
+		oModel.setData(oCounterModel);
+		
+		sap.ui.getCore().setModel(oModel);
+
+		var oIncrementButton = new sap.m.Button({
+			text: "+",
+			press: function (oEvent) {
+				var oModel = sap.ui.getCore().getModel();
+				var iCounterValue = oModel.getProperty("/Counter");
+				iCounterValue++;
+				oModel.setProperty("/Counter", iCounterValue);
+			}
+		});
+		var oCounterLabel = new sap.m.Label({text: "Counter value = {/Counter}"});
+		var oDecrementButton = new sap.m.Button({
+			text: "-",
+			press: function (oEvent) {
+				var oModel = sap.ui.getCore().getModel();
+				var iCounterValue = oModel.getProperty("/Counter");
+				if (iCounterValue > 0) {
+					iCounterValue--;
+					oModel.setProperty("/Counter", iCounterValue);
+				}
+			}
+		});
+		var oContainer = new sap.m.VBox();
+		oContainer.addItem(oIncrementButton);
+		oContainer.addItem(oCounterLabel);
+		oContainer.addItem(oDecrementButton);
+		
+		var oPage = new sap.m.Page("mainPage", {
+			title : "Counter",
+			content : [oContainer]
+		});
+		
+		var oApp = new sap.m.App();
+		oApp.addPage(oPage);
+		oApp.placeAt("content");
+		
+	</script>
+</head>
+
+	<body class="sapUiBody" role="application">
+		<div id="content"></div>
+	</body>
+
+</html>
